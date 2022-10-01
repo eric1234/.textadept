@@ -1,11 +1,11 @@
 -- I use the quick open mostly to navigate to other files
-dofile('./no_tabs.lua')
+require('no_tabs')
 
 -- Don't auto-pair ' in certain situations
-dofile('./contraction.lua')
+require('contraction')
 
 -- Simplified layout control
-dofile('./column_layout.lua')
+require('column_layout')
 
 -- Because I can't spell worth shit
 require('spellcheck')
