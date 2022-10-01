@@ -1,16 +1,19 @@
--- Keyboard shortcuts > Menu and less clutter
-events.connect(events.INITIALIZED, function()
-  textadept.menu.menubar = nil
-end)
-
 -- I use the quick open mostly to navigate to other files
 dofile('./no_tabs.lua')
 
 -- Don't auto-pair ' in certain situations
 dofile('./contraction.lua')
 
+-- Simplified layout control
+dofile('./column_layout.lua')
+
 -- Because I can't spell worth shit
 require('spellcheck')
+
+-- Keyboard shortcuts > Menu and less clutter
+events.connect(events.INITIALIZED, function()
+  textadept.menu.menubar = nil
+end)
 
 -- Code folding is not useful to me and too busy visually to leave enabled
 lexer.folding = false
