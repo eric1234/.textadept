@@ -71,12 +71,13 @@ for i=1, 9 do
   keys['ctrl+alt+'..i] = function()
     M.set_column_count(i)
   end
+  keys['ctrl+cmd+'..i] = keys['ctrl+alt+'..i] -- for Mac
 end
 
 function M.switch_to_column(idx)
   local views = { assert_layout() }
 
-  ui.goto_view(_VIEWS[views[idx]])
+  ui.goto_view(views[idx])
 end
 
 for i=1, 9 do
