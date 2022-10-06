@@ -77,6 +77,9 @@ end
 function M.switch_to_column(idx)
   local views = { assert_layout() }
 
+  -- Just return early if they indicate move to a column we don't have
+  if( idx > #views ) then return end
+
   ui.goto_view(views[idx])
 end
 
