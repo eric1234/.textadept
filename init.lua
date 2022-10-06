@@ -59,3 +59,9 @@ end)
 events.connect(events.UNFOCUS, io.save_all_files)
 events.connect(events.BUFFER_BEFORE_SWITCH, io.save_all_files)
 events.connect(events.VIEW_BEFORE_SWITCH, io.save_all_files)
+
+-- Display word auto-complete automatically after every character typed
+buffer.auto_c_choose_single = false
+events.connect(events.CHAR_ADDED, function()
+  textadept.editing.autocomplete('word')
+end)
