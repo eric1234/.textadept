@@ -7,6 +7,9 @@ require('contraction')
 -- Simplified layout control
 require('column_layout')
 
+-- Easy switch between quote formats
+quote_toggle = require('quote_toggle')
+
 -- Because I can't spell worth shit
 require('spellcheck')
 
