@@ -1,13 +1,22 @@
+-- Default to only doing this in comments but always do it in certian file formats
+local always = false
+events.connect(events.LEXER_LOADED, function(name)
+  always_formats = { 'markdown', 'text' }
+  always = table.contains(always_formats, function(lang) return name == lang end)
+end)
+
 local auto_pairs
 events.connect(events.KEYPRESS, function(code)
   -- Return early if not a '
   if code ~= string.byte("'") then return end
 
-  -- Look at prev character since end of comment line not considered in comment
-  local style = buffer:name_of_style(buffer.style_at[buffer.current_pos-1])
+  if not always then
+    -- Look at prev character since end of comment line not considered in comment
+    local style = buffer:name_of_style(buffer.style_at[buffer.current_pos-1])
 
-  -- Return early if not a comment
-  if( style ~= 'comment' ) then return end
+    -- Return early if not a comment
+    if( style ~= 'comment' ) then return end
+  end
 
   -- Disable auto_pairs storing config in closure for later restore
   auto_pairs, textadept.editing.auto_pairs = textadept.editing.auto_pairs, nil
