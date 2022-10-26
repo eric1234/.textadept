@@ -6,13 +6,20 @@ buffer.auto_c_choose_single = false
 -- so scan all open buffers for auto-complete.
 textadept.editing.autocomplete_all_words = true
 
+-- Default for auto-complete to be enabled but disable on certain file formats
+enabled = true
+events.connect(events.LEXER_LOADED, function(name)
+  no_auto_complete = { 'markdown', 'text' }
+  enabled = not table.contains(no_auto_complete, function(lang) return name == lang end)
+end)
+
 -- Operates like (and based on) the standard autocomplete list but instead can
 -- accept multiple autocomplete functions that will be combined together.
-local function multi_autocomplete(...)
+local function multi_autocomplete(auto_complete_lists)
   local list = {}
   local len_entered
 
-  for _, name in ipairs({...}) do
+  for _, name in ipairs(auto_complete_lists) do
     if not textadept.editing.autocompleters[assert_type(name, 'string', 1)] then goto continue end
     local len, cur_list = textadept.editing.autocompleters[name]()
     len_entered = len
@@ -26,15 +33,42 @@ local function multi_autocomplete(...)
   return true
 end
 
--- Auto-activate auto-complete when character typed
-events.connect(events.CHAR_ADDED, function()
-  if buffer:auto_c_active() then
+-- Control cancel and completion more. Only `<enter>` will auto-complete. All
+-- other keys will remove it (with that key possible creating a new one).
+-- Prepended to the event queue so we properly cancel the auto-complete even if
+-- another event handler stops the event queue
+events.connect(events.KEYPRESS, function(code)
+  if not buffer:auto_c_active() then return end
+
+  ui.statusbar_text = code
+  if 65293 == code then
+    buffer:auto_c_complete()
+    return true
+  else
     buffer:auto_c_cancel()
   end
+end, 1)
 
-  -- Only try to auto-complete if more than 2 characters have been typed
+-- Auto-activate auto-complete when character typed
+events.connect(events.CHAR_ADDED, function(code)
+  if not enabled then return end
+
+  -- The list of auto-complete lists we want to use
+  auto_complete_lists = {}
+
+  -- FIXME: I would make snippets part of the list unconditionally but if
+  -- the character inserted is `(` or `)` then it then the snippet functionality
+  -- gets an error internally. This seems like a bug in Textadept but working
+  -- around it for now.
+  if string.byte('(') ~= code and string.byte(')') ~= code then
+    table.insert(auto_complete_lists, 'snippet')
+  end
+
+  -- Only do word auto-complete if more than 2 characters typed
   local wordStart = buffer:word_start_position(buffer.current_pos, true)
-  if buffer.current_pos - wordStart <= 2 then return end
+  if buffer.current_pos - wordStart > 2 then
+    table.insert(auto_complete_lists, 'word')
+  end
 
   -- If in comment then do not auto-complete.
   -- Look at prev character since end of comment line not considered in comment
@@ -42,7 +76,9 @@ events.connect(events.CHAR_ADDED, function()
   local style = buffer:name_of_style(buffer.style_at[buffer.current_pos-1])
   if( style == 'comment' ) then return end
 
-  multi_autocomplete('word', 'snippet')
+  if #auto_complete_lists > 0 then
+    multi_autocomplete(auto_complete_lists)
+  end
 end)
 
 -- If inserted auto-complete can activate a snippet then activate it
@@ -82,4 +118,3 @@ textadept.editing.autocompleters.word = function()
   end
   return #word_part, list
 end
-

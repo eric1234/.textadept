@@ -1,3 +1,11 @@
+function table.contains(table, evaluator)
+  for _, item in ipairs(table) do
+    if evaluator(item) then return true end
+  end
+
+  return false
+end
+
 -- I use the quick open mostly to navigate to other files
 require('no_tabs')
 
