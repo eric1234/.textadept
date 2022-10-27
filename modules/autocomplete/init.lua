@@ -60,7 +60,7 @@ events.connect(events.CHAR_ADDED, function(code)
   -- the character inserted is `(` or `)` then it then the snippet functionality
   -- gets an error internally. This seems like a bug in Textadept but working
   -- around it for now.
-  if string.byte('(') ~= code and string.byte(')') ~= code then
+  if string.char(code):match('%a') then
     table.insert(auto_complete_lists, 'snippet')
   end
 
