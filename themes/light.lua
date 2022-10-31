@@ -2,6 +2,7 @@
 -- * background changed to light_white
 -- * line background changed to white
 -- * All selection background color is bright yellow
+-- * Embedded language markers have a much lighter look
 
 -- Copyright 2007-2022 Mitchell. See LICENSE.
 -- Light theme for Textadept.
@@ -73,7 +74,7 @@ styles.fold_display_text = {fore = colors.grey}
 styles.class = {fore = colors.yellow}
 styles.comment = {fore = colors.grey}
 styles.constant = {fore = colors.red}
-styles.embedded = {fore = colors.dark_blue, back = colors.dark_white}
+styles.embedded = {fore = colors.light_grey}
 styles.error = {fore = colors.red, italics = true}
 styles['function'] = {fore = colors.dark_orange}
 styles.identifier = {}
