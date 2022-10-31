@@ -5,7 +5,7 @@ local function validate_layout(st)
   if st.vertical == nil then
     return true
   elseif st.vertical == true then
-    return validate_layout(st[1]) and validate_layout(st[2])
+    return st[1].vertical == nil and validate_layout(st[2])
   else
     return false
   end
@@ -60,6 +60,8 @@ function M.set_column_count(count)
     for _, view in ipairs(views) do
       view.size = per
     end
+
+    M.switch_to_column(#views + 1)
   else
     remove_views(views, #views - count, per)
   end
