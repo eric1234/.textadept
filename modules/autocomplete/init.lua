@@ -33,17 +33,30 @@ local function multi_autocomplete(auto_complete_lists)
   return true
 end
 
--- Control cancel and completion more. Only `<enter>` will auto-complete. All
--- other keys will remove it (with that key possible creating a new one).
+-- Control cancel and completion more. Only `<enter>` will auto-complete. Up
+-- and down are still allowed to navigate the auto-complete. All other keys will
+-- remove it (with that key possible creating a new one).
+--
 -- Prepended to the event queue so we properly cancel the auto-complete even if
--- another event handler stops the event queue
+-- another event handler stops the event queue.
+--
+-- This extra control helps prevent against conflict with other stuff like
+-- auto-inserted do/end in Ruby or tabbing between spots while populating a
+-- snippet.
 events.connect(events.KEYPRESS, function(code)
   if not buffer:auto_c_active() then return end
 
-  ui.statusbar_text = code
-  if 65293 == code then
+  -- I'm not actually sure what numbers these are but they are what I gathered
+  -- by logging the code when I pressed the key.
+  local enter = 65293
+  local up = 65362
+  local down = 65364
+
+  if code == enter then
     buffer:auto_c_complete()
     return true
+  elseif code == up or code == down then
+    -- Purposely do nothing
   else
     buffer:auto_c_cancel()
   end
