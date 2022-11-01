@@ -1,3 +1,6 @@
+textadept.log = require('log')
+
+-- Utility "find" function used by multiple modules
 function table.contains(table, evaluator)
   for _, item in ipairs(table) do
     if evaluator(item) then return true end
