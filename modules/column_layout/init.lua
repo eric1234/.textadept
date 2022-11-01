@@ -1,88 +1,69 @@
 local M = {}
 
--- Verify current layout is compatible with hwo this module assumes the splits.
-local function validate_layout(st)
-  if st.vertical == nil then
-    return true
-  elseif st.vertical == true then
-    return st[1].vertical == nil and validate_layout(st[2])
-  else
-    return false
+local function add_views(num_to_add)
+  for _=1, num_to_add do
+    _VIEWS[#_VIEWS]:split(true)
   end
 end
 
-local function get_views(st)
-  if st.vertical == nil then
-    return st
-  else
-    return st[1], get_views(st[2])
+local function remove_view(position)
+  for i=position, #_VIEWS-1 do
+    _VIEWS[i]:goto_buffer(_VIEWS[i+1].buffer)
+  end
+  _VIEWS[#_VIEWS-1]:unsplit()
+end
+
+local function even_size()
+  local per = math.floor(ui.size[1] / #_VIEWS)
+
+  for _, view in ipairs(_VIEWS) do
+    view.size = per
   end
 end
 
-local function add_views(last_view, num_to_add, per)
-  for i=1, num_to_add do
-    _, last_view = last_view:split(true)
-    last_view.size = per
-  end
-end
+function M.toggle_column(position)
+  local initial_view_count = #_VIEWS
 
-local function remove_views(views, num_to_remove, per)
-  for i=0, #views-1 do
-    local cur = views[#views - i]
-
-    if num_to_remove > 0 then
-      if cur ~= view then
-        cur:unsplit()
-        num_to_remove = num_to_remove - 1
-      end
-    else
-      cur.size = per
-    end
-  end
-end
-
-local function assert_layout()
-  local st = ui.get_split_table()
-  assert(validate_layout(st), 'Current layout incompatible')
-
-  return get_views(st)
-end
-
-function M.set_column_count(count)
-  local views = { assert_layout() }
-  local per = math.floor(ui.size[1] / count)
-
-  if #views == count then
+  if initial_view_count == 1 and position == 1 then
+    -- Only a single view and the user told us to close it. Ignore the user
     return
-  elseif #views < count then
-    add_views(views[#views], count - #views, per)
-
-    for _, view in ipairs(views) do
-      view.size = per
-    end
-
-    M.switch_to_column(#views + 1)
+  elseif initial_view_count < position then
+    add_views(position - initial_view_count)
+    M.switch_to_column(initial_view_count + 1)
   else
-    remove_views(views, #views - count, per)
+    remove_view(position)
   end
 
-  ui.update()
+  even_size()
 end
 
 for i=1, 9 do
   keys['ctrl+alt+'..i] = function()
-    M.set_column_count(i)
+    M.toggle_column(i)
   end
   keys['ctrl+cmd+'..i] = keys['ctrl+alt+'..i] -- for Mac
 end
 
+function M.swap_with(position)
+  a = _VIEWS[position].buffer
+  b = view.buffer
+
+  _VIEWS[position]:goto_buffer(b)
+  view:goto_buffer(a)
+  M.switch_to_column(position)
+end
+
+for i, k in ipairs({'!', '@', '#', '$', '%', '^', '&', '*', '('}) do
+  keys['ctrl+'..k] = function()
+    M.swap_with(i)
+  end
+end
+
 function M.switch_to_column(idx)
-  local views = { assert_layout() }
-
   -- Just return early if they indicate move to a column we don't have
-  if( idx > #views ) then return end
+  if( idx > #_VIEWS ) then return end
 
-  ui.goto_view(views[idx])
+  ui.goto_view(_VIEWS[idx])
 end
 
 for i=1, 9 do
