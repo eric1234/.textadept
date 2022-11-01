@@ -21,6 +21,18 @@ local function even_size()
   end
 end
 
+-- I make all views even anytime I change the column count but also poll the
+-- window width so if the user resizing the windows the columns stay event
+local window_width = ui.size[1]
+timeout(0.25, function()
+  if( window_width == ui.size[1] ) then return true end
+
+  window_width = ui.size[1]
+  even_size()
+
+  return true
+end)
+
 function M.toggle_column(position)
   local initial_view_count = #_VIEWS
 
