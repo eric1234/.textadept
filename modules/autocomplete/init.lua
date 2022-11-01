@@ -70,9 +70,8 @@ events.connect(events.CHAR_ADDED, function(code)
   auto_complete_lists = {}
 
   -- FIXME: I would make snippets part of the list unconditionally but if
-  -- the character inserted is `(` or `)` then it then the snippet functionality
-  -- gets an error internally. This seems like a bug in Textadept but working
-  -- around it for now.
+  -- the character inserted is a control code for Lua match expressions then the
+  -- snippet auto-complete gets an error so filter those out.
   if string.char(code):match('%a') then
     table.insert(auto_complete_lists, 'snippet')
   end
