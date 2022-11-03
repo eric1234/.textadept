@@ -1,3 +1,8 @@
+-- In code I like to auto-pair ' but in text documents (plain text, markdown,
+-- etc) it is usually not desired. Also in comments it is usually not desired.
+-- This module allows ' to not auto-pair in those undesirable situtations while
+-- still auto-pairing elsewhere.
+
 -- Default to only doing this in comments but always do it in certian file formats
 local always = false
 events.connect(events.LEXER_LOADED, function(name)

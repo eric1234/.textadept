@@ -1,3 +1,16 @@
+-- Layout manager to assist with developing on wide-screen displays. Makes the
+-- assumption that we typically only want vertical splits in our views and that
+-- we will have a lot of them. By restricting ourselves to these assumptions
+-- we can let those assumptions simplify using many views. This module sets
+-- up the following:
+--
+-- * Ctrl-1..Ctrl-9 jumps to that specific column.
+-- * Ctrl-Atl-1..Ctrl-Alt-9 toggles the display of that specific column.
+-- * Ctrl-Shift-1..Ctrl-Shift-9 swaps the current view with that specific column
+--
+-- As it manipulates these views it keeps them even width and as the window
+-- size changes it keeps them even width.
+
 local M = {}
 
 local function add_views(num_to_add)

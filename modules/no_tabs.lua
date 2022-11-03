@@ -1,3 +1,8 @@
+-- I don't find tabs useful so disable them. But just because they are hidden
+-- doesn't stop old buffers from staying loaded which I just find clutters
+-- my workflow. This module disables the tabs but also auto-closes any buffers
+-- not in use automatically to tidy things up.
+
 -- Returns a function that ensures only once instance of it is active at
 -- a time. If another thread calls the same function it will be ignored.
 -- Also adds a slight delay to processing the function so the if another
@@ -15,10 +20,8 @@ local function debounce(func)
   end
 end
 
--- Store what views are using what buffers. Then run the callback. Then ensure
--- those associations from before as still valid. This is needed because
--- sometimes closing a buffer seems to cause an unrelated view change to an
--- unrelated buffer
+-- Workaround for this bug:
+-- https://github.com/orbitalquark/textadept/discussions/264#discussioncomment-4043455
 local function ensure_buffer_assignment(callback)
   local usage = {}
   for _, view in ipairs(_VIEWS) do
@@ -49,3 +52,4 @@ end)
 ui.tabs = false
 events.connect(events.FILE_OPENED, close_unused_buffers)
 events.connect(events.BUFFER_AFTER_SWITCH, close_unused_buffers)
+events.connect(events.VIEW_AFTER_SWITCH, close_unused_buffers)

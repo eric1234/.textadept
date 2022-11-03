@@ -1,3 +1,7 @@
+-- Toggle between the different quote types in a language. Default to toggling
+-- between ' and " but there is a hook for other languages to do what makes
+-- sense for that language. Hotkey is Ctrl-" for PC and Cmd-" for Mac.
+
 local M = {}
 
 -- Single and double quotes are pretty standard in most languages. Some
