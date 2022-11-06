@@ -13,6 +13,7 @@ require('autocomplete')
 require('snippets')
 require('quick_open')
 require('rewrap')
+require('find')
 
 -- A visual indicator on preferred max line length
 view.edge_column = 80
@@ -24,8 +25,4 @@ textadept.editing.strip_trailing_spaces = true
 -- Surround selected text with auto pairs
 textadept.editing.auto_enclose = true
 
--- Assume currently selected text is what we want to search for
-textadept.key_replace(ui.find.focus, function()
-  ui.find.focus{find_entry_text = buffer:get_sel_text()}
-  buffer:set_selection(0, 0)
-end)
+
