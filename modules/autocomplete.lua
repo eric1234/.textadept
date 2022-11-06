@@ -1,7 +1,7 @@
 -- Customize the auto-complete to be more automatic. Pops up as we type things
 -- but not within text documents (plain text, markdown) and not within comments.
 -- Includes both word auto-completion and snippet auto-completion. May add
--- others later
+-- others later.
 
 
 -- Since we auto-activate auto complete we don't want to auto-choose on single

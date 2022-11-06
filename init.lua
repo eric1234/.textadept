@@ -12,6 +12,7 @@ require('quote_toggle')
 require('autocomplete')
 require('snippets')
 require('quick_open')
+require('rewrap')
 
 -- A visual indicator on preferred max line length
 view.edge_column = 80
