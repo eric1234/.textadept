@@ -1,3 +1,7 @@
+-- General methods that are useful across many scripts. Try to keep these to
+-- a minimum so the modules are largely independent but we also don't want
+-- duplicate code so if two modules need the same thing put that thing here.
+
 -- "find" value in table using callback
 function table.contains(table, evaluator)
   for _, item in ipairs(table) do
@@ -5,12 +9,4 @@ function table.contains(table, evaluator)
   end
 
   return false
-end
-
--- Make it easy to replace a function with my version while keeping the same
--- keycodes regardless of platform
-function textadept.key_replace(old_func, new_func)
-  for keycode, func in pairs(keys) do
-    if func == old_func then keys[keycode] = new_func end
-  end
 end
