@@ -1,4 +1,5 @@
--- Keyboard shortcuts > Menu and less clutter
+-- Prefer keyboard shortcuts or a command palette over navigating a menu and
+-- the menu just adds clutter so disable it.
 events.connect(events.INITIALIZED, function()
   textadept.menu.menubar = nil
 end)
