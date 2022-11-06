@@ -85,7 +85,7 @@ end)
 -- only the conditional for adding a match as been modified to see if the match
 -- is in the "comment" style. If so it is ignored.
 --
--- I concatacted the devleoper to see if there is a way we can upstream this
+-- I contacted the developer to see if there is a way we can upstream this
 -- or at least remove the need for the monkey-patch by having a hook but they
 -- where not interested so just maintaining my own fork.
 textadept.editing.autocompleters.word = function()
