@@ -25,6 +25,10 @@ local function multi_autocomplete(auto_complete_lists)
   local list = {}
   local len_entered
 
+  if buffer:auto_c_active() then buffer:auto_c_cancel() end
+
+  if #auto_complete_lists == 0 then return end
+
   for _, name in ipairs(auto_complete_lists) do
     if not textadept.editing.autocompleters[assert_type(name, 'string', 1)] then goto continue end
     local len, cur_list = textadept.editing.autocompleters[name]()
@@ -65,9 +69,7 @@ events.connect(events.CHAR_ADDED, function(code)
   local style = buffer:name_of_style(buffer.style_at[buffer.current_pos-1])
   if( style == 'comment' ) then return end
 
-  if #auto_complete_lists > 0 then
-    multi_autocomplete(auto_complete_lists)
-  end
+  multi_autocomplete(auto_complete_lists)
 end)
 
 events.connect(events.AUTO_C_COMPLETED, function()
