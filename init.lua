@@ -15,6 +15,10 @@ require('quick_open')
 require('rewrap')
 require('find')
 
+-- I don't often need the same files I was working on last so would rather just
+-- start with a clean slate
+textadept.session.save_on_quit = false
+
 -- A visual indicator on preferred max line length
 view.edge_column = 80
 view.edge_mode = view.EDGE_LINE
