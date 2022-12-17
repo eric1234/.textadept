@@ -15,7 +15,7 @@ textadept.editing.autocomplete_all_words = true
 enabled = true
 events.connect(events.LEXER_LOADED, function(name)
   no_auto_complete = { 'markdown', 'text' }
-  enabled = not table.contains(no_auto_complete, function(lang) return name == lang end)
+  enabled = not table.contains(no_auto_complete, name)
 end)
 
 -- Operates like (and based on) the standard autocomplete list but instead can

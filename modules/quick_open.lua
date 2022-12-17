@@ -14,7 +14,7 @@ local function quick_open_all()
 
   for _, buf in ipairs(_BUFFERS) do
     local root = io.get_project_root(buf.filename)
-    if not paths[root] then
+    if not table.contains(paths, root) then
       table.insert(paths, root)
     end
   end

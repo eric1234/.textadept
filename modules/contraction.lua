@@ -7,7 +7,7 @@
 local always = false
 events.connect(events.LEXER_LOADED, function(name)
   always_formats = { 'markdown', 'text' }
-  always = table.contains(always_formats, function(lang) return name == lang end)
+  always = table.contains(always_formats, name)
 end)
 
 local auto_pairs
