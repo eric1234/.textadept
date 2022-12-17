@@ -1,7 +1,6 @@
 textadept.log = require('log')
 
 require('spellcheck')
-
 require('utilities')
 require('declutter')
 require('autosave')
@@ -12,7 +11,6 @@ require('quote_toggle')
 require('autocomplete')
 require('snippets')
 require('quick_open')
-require('rewrap')
 require('find')
 
 -- I don't often need the same files I was working on last so would rather just
@@ -29,4 +27,7 @@ textadept.editing.strip_trailing_spaces = true
 -- Surround selected text with auto pairs
 textadept.editing.auto_enclose = true
 
-
+-- Easy formatting of paragraph content
+local format = require('format')
+format.line_length = view.edge_column
+keys['ctrl+alt+j'] = format.paragraph

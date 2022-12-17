@@ -3,7 +3,6 @@
 -- Includes both word auto-completion and snippet auto-completion. May add
 -- others later.
 
-
 -- Since we auto-activate auto complete we don't want to auto-choose on single
 -- in case they are typing an entirely new term.
 buffer.auto_c_choose_single = false
