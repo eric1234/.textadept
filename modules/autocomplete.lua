@@ -40,8 +40,23 @@ local function multi_autocomplete(auto_complete_lists)
   if not len_entered or not list or #list == 0 then return end
   buffer.auto_c_order = buffer.ORDER_PERFORMSORT
   buffer:auto_c_show(len_entered, table.concat(list, string.char(buffer.auto_c_separator)))
-  return true
+
+  -- While auto-complete is enabled tab should not interact with snippet
+  -- insertion, navigation or canceling. We do this because tab and esc both
+  -- have meaning while an auto-complete is visible and if enabled it has issues.
+  keys['\t'] = nil
+  keys['esc'] = nil
+
+ return true
 end
+
+-- Restore normal snippet functionality as a keypress will either complete or
+-- cancel a possible visible auto-complete. If another auto-complete shows it
+-- will cancel it again.
+events.connect(events.KEYPRESS, function()
+  keys['\t'] = textadept.snippets.insert
+  keys['esc'] = textadept.snippets.cancel_current
+end)
 
 -- Auto-activate auto-complete when character typed
 events.connect(events.CHAR_ADDED, function(code)
