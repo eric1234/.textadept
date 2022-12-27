@@ -29,4 +29,8 @@ textadept.editing.auto_enclose = true
 -- Easy formatting of paragraph content
 local format = require('format')
 format.line_length = view.edge_column
-keys['ctrl+alt+j'] = format.paragraph
+if OSX then
+  keys['ctrl+cmd+j'] = format.paragraph
+else
+  keys['ctrl+alt+j'] = format.paragraph
+end
