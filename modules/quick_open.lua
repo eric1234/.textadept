@@ -1,8 +1,9 @@
 -- My projects tend to be a lot of little files
 io.quick_open_max = 10000
 
--- Temp directory should not be included in default search
+-- Temp or storage directory should not be included in default search
 table.insert(lfs.default_filter, '!/tmp$')
+table.insert(lfs.default_filter, '!/storage$')
 
 -- Quick open will by default open a file descending from the project root of
 -- the current buffer. I think it will be more useful to filter for the project
