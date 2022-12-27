@@ -1,5 +1,4 @@
-textadept.log = require('log')
-
+require('mac_print')
 require('spellcheck')
 require('utilities')
 require('declutter')
