@@ -12,6 +12,7 @@ require('snippets')
 require('quick_open')
 require('find')
 require('copy_path')
+require('indent_match')
 
 -- I don't often need the same files I was working on last so would rather just
 -- start with a clean slate
