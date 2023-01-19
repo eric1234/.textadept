@@ -3,11 +3,18 @@
 -- my workflow. This module disables the tabs but also auto-closes any buffers
 -- not in use automatically to tidy things up.
 
--- Returns a function that ensures only once instance of it is active at
--- a time. If another thread calls the same function it will be ignored.
--- Also adds a slight delay to processing the function so the if another
--- process will be using the unused buffer very shortly they can grab it before
--- the cleanup.
+
+-- Workaround for this bug:
+-- https://github.com/orbitalquark/textadept/discussions/264#discussioncomment-4102032
+--
+-- Since we are closing all non-visible buffers anyway the value of going to the
+-- previous buffer doesn't really have meaning anyway so just nilling out
+-- this private variable to disable the problematic functionality.
+events.connect(events.BUFFER_BEFORE_SWITCH, function() view._prev_buffer = nil end)
+
+--- Returns a function that ensures only once instance of it is active at
+--- a time. If another thread calls the same function it will be ignored.
+--- Also adds a slight delay to let the processing settle before doing cleanup
 local function debounce(func)
   local processing = false
 
@@ -20,21 +27,6 @@ local function debounce(func)
   end
 end
 
--- Workaround for this bug:
--- https://github.com/orbitalquark/textadept/discussions/264#discussioncomment-4043455
-local function ensure_buffer_assignment(callback)
-  local usage = {}
-  for _, view in ipairs(_VIEWS) do
-    usage[view] = view.buffer
-  end
-
-  callback()
-
-  for view, buffer in pairs(usage) do
-    view:goto_buffer(buffer)
-  end
-end
-
 local function buffer_in_use(buf)
   return table.contains(_VIEWS, function(view)
     return view.buffer.filename == buf.filename
@@ -42,11 +34,9 @@ local function buffer_in_use(buf)
 end
 
 local close_unused_buffers = debounce(function()
-  ensure_buffer_assignment(function()
-    for _, buf in ipairs(_BUFFERS) do
-      if not buffer_in_use(buf) then buf:close() end
-    end
-  end)
+  for _, buf in ipairs(_BUFFERS) do
+    if not buffer_in_use(buf) then buf:close() end
+  end
 end)
 
 ui.tabs = false
