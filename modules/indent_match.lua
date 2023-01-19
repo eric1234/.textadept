@@ -38,5 +38,10 @@ events.connect(events.UPDATE_UI, function(updated)
   until prev_indent <= cur_indent and not blank
 
   line_text = line_text:trim()
+
+  -- Any text that is three characters or less (sometimes just a `{`) is not
+  -- useful enough to justify the visual noise.
+  if #line_text <= 3 then return end
+
   view:call_tip_show(buffer.current_pos, line_text)
 end)
