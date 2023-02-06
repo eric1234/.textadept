@@ -36,3 +36,9 @@ if OSX then
 else
   keys['ctrl+alt+j'] = format.paragraph
 end
+
+-- Don't prompt when file changes on disk. Unconditionally reload
+events.connect(events.FILE_CHANGED, function()
+  buffer:reload()
+  return false
+end, 1)
