@@ -15,6 +15,7 @@ events.connect(events.LEXER_LOADED, function(name)
 
   -- Custom snippets
   snip.exp = 'expect( %1(subject) ).to %0'
+  snip.expb = 'expect { %1 }.to %0'
   snip.let = 'let(%1) { %0 }'
   snip.letb = 'let %1 do\n\t%0\nend'
 end)
