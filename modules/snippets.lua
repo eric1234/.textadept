@@ -18,6 +18,9 @@ events.connect(events.LEXER_LOADED, function(name)
   snip.expb = 'expect { %1 }.to %0'
   snip.let = 'let(%1) { %0 }'
   snip.letb = 'let %1 do\n\t%0\nend'
+  snip.Given = "Given '%1' do\n\t%0\nend"
+  snip.When = "When '%1' do\n\t%0\nend"
+  snip.Then = "Then '%1' do\n\t%0\nend"
 end)
 
 local snip = snippets.javascript
