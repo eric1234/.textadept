@@ -58,10 +58,8 @@ M.toggle = function()
   buffer:goto_pos(pos)
 end
 
-if OSX then
-  keys['cmd+"'] = M.toggle
-else
-  keys['ctrl+"'] = M.toggle
-end
+command('"', M.toggle)
+local edit_menu = textadept.menu.menubar['Edit']
+edit_menu[#edit_menu + 1] = { 'Toggle Quotes', M.toggle }
 
 return M

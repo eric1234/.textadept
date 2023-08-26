@@ -12,10 +12,11 @@ local function copy_path(from_root)
   ui.clipboard_text = current_path
 end
 
-if OSX then
-  keys['ctrl+cmd+p'] = copy_path
-  keys['ctrl+cmd+P'] = function() copy_path(true) end
-else
-  keys['ctrl+alt+p'] = copy_path
-  keys['ctrl+alt+P'] = function() copy_path(true) end
-end
+local function copy_full_path() copy_path(true) end
+
+alt_command('p', copy_path)
+alt_command('P', copy_full_path)
+
+local edit_menu = textadept.menu.menubar['Edit']
+edit_menu[#edit_menu + 1] = { 'Copy Path', copy_path }
+edit_menu[#edit_menu + 1] = { 'Copy Full Path', copy_full_path }

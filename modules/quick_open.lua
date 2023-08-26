@@ -28,8 +28,4 @@ end
 -- we already have the up arrow for moving up I won't ever use Ctrl-P (in Mac
 -- cmd-P). Therefore stealing that keyboard shortcut. This also makes it the
 -- same shortcut as Atom's fuzzy finder which is similar functionality.
-if OSX then
-  keys['cmd+p'] = quick_open_all
-else
-  keys['ctrl+p'] = quick_open_all
-end
+command('p', quick_open_all)

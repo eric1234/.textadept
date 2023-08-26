@@ -23,7 +23,9 @@ local function remove_view(position)
   for i=position, #_VIEWS-1 do
     _VIEWS[i]:goto_buffer(_VIEWS[i+1].buffer)
   end
-  _VIEWS[#_VIEWS-1]:unsplit()
+
+  -- This started crashing with v12 unless I put in a timeout
+  timeout(0.1, function() _VIEWS[#_VIEWS-1]:unsplit() end)
 end
 
 local function even_size()
@@ -59,15 +61,22 @@ function M.toggle_column(position)
     remove_view(position)
   end
 
-  even_size()
+  -- Since the unsplit waits for 0.1 now also wait here
+  timeout(0.1, even_size)
 end
 
+local column_menu = { title = 'Toggle Column' }
 for i=1, 9 do
-  keys['ctrl+alt+'..i] = function()
+  local func = function()
     M.toggle_column(i)
   end
-  keys['ctrl+cmd+'..i] = keys['ctrl+alt+'..i] -- for Mac
+
+  column_menu[#column_menu + 1] = { i, func }
+
+  alt_command(i, func)
 end
+local view_menu = textadept.menu.menubar['View']
+view_menu[#view_menu + 1] = column_menu
 
 function M.swap_with(position)
   a = _VIEWS[position].buffer

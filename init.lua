@@ -1,5 +1,6 @@
 require('mac_print')
 require('spellcheck')
+require('format')
 require('utilities')
 require('declutter')
 require('autosave')
@@ -14,6 +15,9 @@ require('find')
 require('copy_path')
 require('indent_match')
 
+buffer.use_tabs = false
+buffer.tab_width = 2
+
 -- I don't often need the same files I was working on last so would rather just
 -- start with a clean slate
 textadept.session.save_on_quit = false
@@ -27,15 +31,6 @@ textadept.editing.strip_trailing_spaces = true
 
 -- Surround selected text with auto pairs
 textadept.editing.auto_enclose = true
-
--- Easy formatting of paragraph content
-local format = require('format')
-format.line_length = view.edge_column
-if OSX then
-  keys['ctrl+cmd+j'] = format.paragraph
-else
-  keys['ctrl+alt+j'] = format.paragraph
-end
 
 if OSX then
   keys['cmd+r'] = io.open_recent_file

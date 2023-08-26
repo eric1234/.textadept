@@ -20,7 +20,8 @@ local function debounce(func)
 
   return function()
     if processing then return else processing = true end
-    timeout(0.1, function()
+
+    timeout(0.2, function()
       func()
       processing = false
     end)

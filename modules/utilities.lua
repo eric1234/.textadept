@@ -16,3 +16,22 @@ function table.contains(table, evaluator)
 
   return false
 end
+
+-- Apple tend to use the `cmd` key for commands while other platforms tend to
+-- use `ctrl`. Abstract that convention.
+function command(key, func)
+  if OSX then
+    keys['cmd+'..key] = func
+  else
+    keys['ctrl+'..key] = func
+  end
+end
+
+-- Same as above but does ctrl+cmd vs ctrl+alt
+function alt_command(key, func)
+  if OSX then
+    keys['ctrl+cmd+'..key] = func
+  else
+    keys['ctrl+alt+'..key] = func
+  end
+end
