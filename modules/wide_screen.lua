@@ -24,8 +24,12 @@ local function remove_view(position)
     _VIEWS[i]:goto_buffer(_VIEWS[i+1].buffer)
   end
 
-  -- This started crashing with v12 unless I put in a timeout
-  timeout(0.1, function() _VIEWS[#_VIEWS-1]:unsplit() end)
+  -- In case view being removed is focused then unfocus to prevent crash
+  -- https://github.com/orbitalquark/textadept/issues/452
+  if view == _VIEWS[#_VIEWS] then
+    ui.goto_view(_VIEWS[#_VIEWS-1])
+  end
+  _VIEWS[#_VIEWS-1]:unsplit()
 end
 
 local function even_size()
@@ -61,8 +65,7 @@ function M.toggle_column(position)
     remove_view(position)
   end
 
-  -- Since the unsplit waits for 0.1 now also wait here
-  timeout(0.1, even_size)
+  even_size()
 end
 
 local column_menu = { title = 'Toggle Column' }
