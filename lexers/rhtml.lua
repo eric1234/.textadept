@@ -1,1 +1,0 @@
-return lexer.load('html')
