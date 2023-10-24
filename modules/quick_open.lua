@@ -5,6 +5,7 @@ io.quick_open_max = 10000
 table.insert(lfs.default_filter, '!/tmp$')
 table.insert(lfs.default_filter, '!/storage$')
 table.insert(lfs.default_filter, '!/coverage$')
+table.insert(lfs.default_filter, '!vcr_cassettes$')
 
 -- Quick open will by default open a file descending from the project root of
 -- the current buffer. I think it will be more useful to filter for the project
