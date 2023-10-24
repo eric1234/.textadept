@@ -1,7 +1,12 @@
+-- For debugging and utility
 require('mac_print')
+require('utilities')
+
+-- Modules provided by TextAdept
 require('spellcheck')
 require('format')
-require('utilities')
+
+-- My personal modules
 require('declutter')
 require('autosave')
 require('no_tabs')
@@ -32,11 +37,8 @@ textadept.editing.strip_trailing_spaces = true
 -- Surround selected text with auto pairs
 textadept.editing.auto_enclose = true
 
-if OSX then
-  keys['cmd+r'] = io.open_recent_file
-else
-  keys['ctrl+r'] = io.open_recent_file
-end
+-- I use a shell to run things so re-use binding for opening recent files
+command('r', io.open_recent_file)
 
 -- Don't prompt when file changes on disk. Unconditionally reload
 events.connect(events.FILE_CHANGED, function()
