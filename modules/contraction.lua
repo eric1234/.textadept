@@ -13,7 +13,7 @@ end)
 local auto_pairs
 events.connect(events.KEYPRESS, function(code)
   -- Return early if not a '
-  if code ~= string.byte("'") then return end
+  if code ~= "'" then return end
 
   if not always then
     -- Look at prev character since end of comment line not considered in comment
