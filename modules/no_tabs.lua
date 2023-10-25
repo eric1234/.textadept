@@ -7,10 +7,17 @@
 -- Workaround for this bug:
 -- https://github.com/orbitalquark/textadept/discussions/264#discussioncomment-4102032
 --
--- Since we are closing all non-visible buffers anyway the value of going to the
--- previous buffer doesn't really have meaning anyway so just nilling out
--- this private variable to disable the problematic functionality.
-events.connect(events.BUFFER_BEFORE_SWITCH, function() view._prev_buffer = nil end)
+-- Since I'm closing non-visible buffers anyway the value of reverting to the
+-- previous buffer is gone. I used to just nil out that internal `_prev_buffer`
+-- variable by registering my own "before switch" callback but that stopped
+-- working with v12 I think becaue the logic was inverted. Therefore now just
+-- want to prevent the BUFFER_DELETED from even running.
+--
+-- This reaches into the internals a bit as I've searched the code and know that
+-- there are two BUFFER_DELETED callbacks. The first I'm happy to keep therefore
+-- inserting my own as the second so the existing second moves to the third and
+-- it is never run since I return false.
+events.connect(events.BUFFER_DELETED, function() return false end, 2)
 
 --- Returns a function that ensures only once instance of it is active at
 --- a time. If another thread calls the same function it will be ignored.
