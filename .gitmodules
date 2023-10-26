@@ -1,6 +1,0 @@
-[submodule "modules/spellcheck"]
-	path = modules/spellcheck
-	url = git@github.com:orbitalquark/textadept-spellcheck.git
-[submodule "modules/format"]
-	path = modules/format
-	url = git@github.com:orbitalquark/textadept-format.git

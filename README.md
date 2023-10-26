@@ -4,9 +4,14 @@ For 3rd party modules instead of using specific releases I just use a git
 submodule making it quick and easy to update. When doing a new checkout:
 
 ```sh
-git clone git@github.com:eric1234/.textadept.git
-git submodule init
-git submodule update
+git clone git@github.com:eric1234/.textadept.git ~/.textadept
+```
+
+Next install the 3rd party modules with:
+
+```sh
+cd ~/.textadept
+./install_3rd_party_modules
 ```
 
 Also set the `EDITOR` environment variable so Textadept can be used for editing

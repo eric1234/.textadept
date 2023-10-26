@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Install format module to easily wrap prose
+rm -rf modules/format
+wget -q -O modules/format.zip "https://github.com/orbitalquark/textadept-format/releases/download/latest/format.zip"
+unzip -q modules/format.zip -d modules
+rm modules/format.zip
+
+# Install spellcheck module because I suck as spelling
+rm -rf modules/spellcheck
+wget -q -O modules/spellcheck.zip "https://github.com/orbitalquark/textadept-spellcheck/releases/download/latest/spellcheck.zip"
+unzip -q modules/spellcheck.zip -d modules
+rm modules/spellcheck.zip
