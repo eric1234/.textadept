@@ -19,6 +19,7 @@ require('quick_open')
 require('find')
 require('copy_path')
 require('indent_match')
+require('file_management')
 
 buffer.use_tabs = false
 buffer.tab_width = 2
