@@ -1,4 +1,6 @@
 session
 debug.log
+lua_lsp_server.log
 modules/format
 modules/spellcheck
+modules/lsp
