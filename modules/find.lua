@@ -12,7 +12,7 @@ textadept.key_replace(ui.find.focus, function()
   local cur = buffer:get_sel_text()
 
   -- User selected text. Assume that is what we search for
-  if cur ~= '' then
+  if cur ~= '' and not string.find(cur, "\n") then
     ui.find.find_entry_text = cur
     ui.find.replace_entry_text = ''
     buffer:set_selection(0, 0)
