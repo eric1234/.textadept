@@ -6,10 +6,6 @@ require('utilities')
 require('spellcheck')
 require('format')
 
--- LSP integration
---local lsp = require('lsp')
---lsp.server_commands.ruby = 'ruby-lsp'
-
 -- My personal modules
 require('declutter')
 require('autosave')

@@ -11,9 +11,3 @@ rm -rf modules/spellcheck
 wget -q -O modules/spellcheck.zip "https://github.com/orbitalquark/textadept-spellcheck/releases/download/latest/spellcheck.zip"
 unzip -q modules/spellcheck.zip -d modules
 rm modules/spellcheck.zip
-
-# Supercharge my language assistance?
-rm -rf modules/lsp
-wget -q -O modules/lsp.zip "https://github.com/orbitalquark/textadept-lsp/releases/download/latest/lsp.zip"
-unzip -q modules/lsp.zip -d modules
-rm modules/lsp.zip
